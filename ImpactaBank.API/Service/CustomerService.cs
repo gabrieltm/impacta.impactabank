@@ -1,4 +1,6 @@
 ﻿using ImpactaBank.API.Model;
+using ImpactaBank.API.Repository;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +10,8 @@ namespace ImpactaBank.API.Service
 {
     public class CustomerService
     {
+        CustomerRepository _repository = new CustomerRepository();
+
         public BaseResponse Insert(Customer request)
         {
             if (request.Name == String.Empty || request.Name == null)
@@ -16,11 +20,13 @@ namespace ImpactaBank.API.Service
             if (request.Age == 0 || request.Name == null)
                 return new BaseResponse() { StatusCode = 400, Message = "Age is empty" };
 
-            //call repository - get
-            //call get
+            int id = _repository.Insert(request);
 
+            var result = Get(id);
+            result.Message = "Customer was inserted.";
+            result.StatusCode = StatusCodes.Status201Created;
 
-            return new BaseResponse() { StatusCode = 201, Message = "Cystomer was created" };
+            return result;
         }
 
         public BaseResponse Get(int id)
@@ -28,36 +34,21 @@ namespace ImpactaBank.API.Service
             if (id == 0)
                 return new BaseResponse() { StatusCode = 400, Message = "Id is empty" };
 
-            Customer customer = new Customer();
-            customer.Id = 1;
-            customer.Name = "John";
-            customer.Age = 20;
-            return customer;
+            var result = _repository.Get(id);
+
+            if (result == null)
+                return new BaseResponse() { StatusCode = 404, Message = "Customer not found." };
+
+            result.Message = "OK";
+            result.StatusCode = StatusCodes.Status200OK;
+            
+            return result;
         }
 
-        public List<Customer> List()
+        public BaseResponse List()
         {
-            List<Customer> list = new List<Customer>();
-
-            Customer customer = new Customer();
-            customer.Id = 1;
-            customer.Name = "John";
-            customer.Age = 20;
-            list.Add(customer);
-
-            customer = new Customer();
-            customer.Id = 2;
-            customer.Name = "Mariah";
-            customer.Age = 23;
-            list.Add(customer);
-
-            customer = new Customer();
-            customer.Id = 3;
-            customer.Name = "Joseph";
-            customer.Age = 40;
-            list.Add(customer);
-
-            return list;
+            var result = _repository.List();
+            return new CustomerList() { Customers = result, StatusCode = StatusCodes.Status200OK, Message = "OK" };
         }
     }
 }

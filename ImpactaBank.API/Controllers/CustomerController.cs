@@ -26,7 +26,7 @@ namespace ImpactaBank.API.Controllers
         public IActionResult List()
         {
             var result = _service.List();
-            return new ObjectResult(result) { StatusCode = StatusCodes.Status200OK };
+            return new ObjectResult(result) { StatusCode = result.StatusCode };
 
         }
 

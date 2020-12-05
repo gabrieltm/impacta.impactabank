@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.OpenApi.Models;
 
 namespace ImpactaBank.API
 {
@@ -26,6 +27,22 @@ namespace ImpactaBank.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            services.AddSwaggerGen(swagger => 
+            {
+                swagger.SwaggerDoc("v1", new OpenApiInfo()
+                {
+                    Version = "v1",
+                    Title = "Impacta - ImpactaBank.API V1",
+                    Description = "ImpactaBank.API",
+                    Contact = new OpenApiContact()
+                    {
+                        Name = "Dan",
+                        Email = "danlustosa@gmail.com",
+                        Url = new System.Uri("http://www.danlustosa.com.br")
+                    }
+                });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -41,6 +58,14 @@ namespace ImpactaBank.API
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c => 
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "ImpactaBank.API");
+                c.DocumentTitle = "ImpactaBank.API";
+                c.DocExpansion(Swashbuckle.AspNetCore.SwaggerUI.DocExpansion.None);
+            });
 
             app.UseEndpoints(endpoints =>
             {
