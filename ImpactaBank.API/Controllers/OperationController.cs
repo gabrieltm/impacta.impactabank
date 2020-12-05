@@ -11,22 +11,6 @@ namespace ImpactaBank.API.Controllers
     [Route("[controller]")]
     public class OperationController : ControllerBase
     {
-        [HttpPost("withdraw")]
-        public void Withdraw([FromBody] Operation request)
-        {
-
-        }
-
-        [HttpPost("deposit")]
-        public void Deposit([FromBody] Operation request)
-        {
-
-        }
-
-        [HttpPost("transfer")]
-        public void Transfer([FromBody] Operation request)
-        {
-
-        }
+        
     }
 }
