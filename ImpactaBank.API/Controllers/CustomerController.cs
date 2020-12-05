@@ -1,4 +1,6 @@
 ﻿using ImpactaBank.API.Model;
+using ImpactaBank.API.Service;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -11,45 +13,28 @@ namespace ImpactaBank.API.Controllers
     [Route("[controller]")]
     public class CustomerController : ControllerBase
     {
+        public CustomerService _service = new CustomerService();
+
         [HttpGet("get")]
-        public Customer Get()
+        public IActionResult Get([FromQuery] int id)
         {
-            Customer customer = new Customer();
-            customer.Id = 1;
-            customer.Name = "John";
-            customer.Age = 20;
-            return customer;
+            var result = _service.Get(id);
+            return new ObjectResult(result) { StatusCode = result.StatusCode };
         }
 
         [HttpGet("list")]
-        public List<Customer> List()
+        public IActionResult List()
         {
-            List<Customer> list = new List<Customer>();
+            var result = _service.List();
+            return new ObjectResult(result) { StatusCode = StatusCodes.Status200OK };
 
-            Customer customer = new Customer();
-            customer.Id = 1;
-            customer.Name = "John";
-            customer.Age = 20;
-            list.Add(customer);
-
-            customer = new Customer();
-            customer.Id = 2;
-            customer.Name = "Mariah";
-            customer.Age = 23;
-            list.Add(customer);
-
-            customer = new Customer();
-            customer.Id = 3;
-            customer.Name = "Joseph";
-            customer.Age = 40;
-            list.Add(customer);
-
-            return list;
         }
 
         [HttpPost("insert")]
-        public void Insert([FromBody] Customer request)
+        public IActionResult Insert([FromBody] Customer request)
         {
+            var result = _service.Insert(request);
+            return new ObjectResult(result) { StatusCode = result.StatusCode };
 
         }
     }

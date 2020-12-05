@@ -5,10 +5,11 @@ using System.Threading.Tasks;
 
 namespace ImpactaBank.API.Model
 {
-    public class Customer : BaseResponse
+    public class Account : BaseResponse
     {
+
         public int Id { get; set; }
-        public string Name { get; set; }
-        public int Age { get; set; }
+        public string Hash { get; set; }
+        public int CustomerId { get; set; }
     }
 }
