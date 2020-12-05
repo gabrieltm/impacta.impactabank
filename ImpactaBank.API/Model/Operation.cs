@@ -12,5 +12,6 @@ namespace ImpactaBank.API.Model
         public DateTime DateTime { get; set; }
         public int AccountRootId { get; set; }
         public int AccountDestinyId { get; set; }
+        public decimal Value { get; set; }
     }
 }
