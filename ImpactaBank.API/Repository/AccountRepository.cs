@@ -36,5 +36,19 @@ namespace ImpactaBank.API.Repository
             con.Open();
             return con.QueryFirstOrDefault<Account>(query, new { Id });
         }
+
+        public Account GetHash(string hash)
+        {
+            string query = @"SELECT [Id]
+                                  ,[Hash]
+                                  ,[CustomerId]
+                              FROM[dbo].[Account]
+                              WHERE Hash = @Hash";
+
+            var con = new SqlConnection(_connectionString);
+            con.Open();
+            return con.QueryFirstOrDefault<Account>(query, new { hash });
+
+        }
     }
 }

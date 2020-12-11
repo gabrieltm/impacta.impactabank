@@ -14,10 +14,12 @@ namespace ImpactaBank.API.Repository
         {
             string query = @"INSERT INTO [dbo].[Customer]
                                    ([Name]
-                                   ,[Age])
+                                   ,[Age]
+                                   ,[Cpf])
                              output INSERTED.Id VALUES
                                    (@Name
-                                   ,@Age)";
+                                   ,@Age
+                                   ,@Cpf)";
 
             var con = new SqlConnection(_connectionString);
             con.Open();
@@ -29,6 +31,7 @@ namespace ImpactaBank.API.Repository
             string query = @"SELECT [Id]
                               ,[Name]
                               ,[Age]
+                              ,[Cpf]
                           FROM [dbo].[Customer]
                           WHERE Id = @Id";
 
@@ -42,6 +45,7 @@ namespace ImpactaBank.API.Repository
             string query = @"SELECT [Id]
                               ,[Name]
                               ,[Age]
+                              ,[Cpf]
                           FROM [dbo].[Customer]";
 
             var con = new SqlConnection(_connectionString);
